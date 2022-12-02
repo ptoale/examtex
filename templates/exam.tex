@@ -1,0 +1,105 @@
+\#{===================================================================================}
+\#{                                                                                   }
+\#{ The main exam template. Variables include:                                        }
+\#{   Required:                                                                       }
+\#{     questions:    list of questions                                               }
+\#{     num_per_page: number of questions per page                                    }
+\#{   Optional:                                                                       }
+\#{     docopts_str:  the documentclass options, defaults to none                     }
+\#{     packages:     list of required packages, defaults to none                     }
+\#{     pkgconfig:    global package configuration, defaults to none                  }
+\#{     head_foot:    page header/footer configuration, defaults to none              }
+\#{     front:        front page material, defaults to none                           }
+\#{     start_on_new: flag to start questions on a new page, defaults to false        }
+\#{     back:         back page material, defaults to none                            }
+\#{                                                                                   }
+\#{===================================================================================}
+\#{========================================}
+\#{ Add documentclass options              }
+\#{========================================}
+\BLOCK{ if docopts_str }
+\documentclass[\VAR{docopts_str}]{exam}
+\BLOCK{ else }
+\documentclass{exam}
+\BLOCK{ endif }
+%
+\#{========================================}
+\#{ Add any required packages              }
+\#{========================================}
+\BLOCK{ if packages }
+\BLOCK{ for p in packages }
+\BLOCK{ if p.opts }
+\usepackage[\VAR{p.opts}]{\VAR{p.name}}
+\BLOCK{ else }
+\usepackage{\VAR{p.name}}
+\BLOCK{ endif }
+\BLOCK{ endfor }
+\BLOCK{ endif }
+%
+\#{========================================}
+\#{ Add any global package configuration   }
+\#{========================================}
+\BLOCK{ if pkgconfig }
+\VAR{pkgconfig}%
+\BLOCK{ endif }
+%
+\#{========================================}
+\#{ Setup the graphics path                }
+\#{========================================}
+\graphicspath{{\VAR{question_dir}/figures/}}
+\#{========================================}
+\#{ Add header/footer configuration        }
+\#{========================================}
+\BLOCK{ if head_foot }
+\VAR{head_foot}%
+\BLOCK{ endif }
+%
+\#{========================================}
+\#{ Begin document                         }
+\#{========================================}
+\begin{document}
+\#{========================================}
+\#{ Add the front page                     }
+\#{========================================}
+\BLOCK{ if front }
+\VAR{front}%
+\BLOCK{ endif }
+\#{========================================}
+\#{ Start questions on a new page          }
+\#{========================================}
+\BLOCK{ if start_on_new }
+\newpage
+\BLOCK{ endif }
+\#{========================================}
+\#{ Begin question environment             }
+\#{========================================}
+\begin{questions}
+%
+\#{========================================================================}
+\#{ Loop over questions                                                    }
+\#{     put 'n' to a page and insure pagebreaks                            }
+\#{     todo: deal with spacing on final page with less than 'n' questions }
+\#{========================================================================}
+\BLOCK{ for q in questions }
+\VAR{q}
+\ifprintanswers\else\vspace{\stretch{1}}\fi
+\BLOCK{ if (loop.index0 % num_per_page) == (num_per_page-1) }
+\ifprintanswers\else\newpage\fi
+\BLOCK{ endif }
+%
+\BLOCK{ endfor }
+\#{========================================}
+\#{ End question environment               }
+\#{========================================}
+\end{questions}
+%
+\#{========================================}
+\#{ Add back page                          }
+\#{========================================}
+\BLOCK{ if back }
+\VAR{back}
+\BLOCK{ endif }
+\#{========================================}
+\#{ End document                           }
+\#{========================================}
+\end{document}

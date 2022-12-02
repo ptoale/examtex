@@ -1,0 +1,33 @@
+#================================================================================
+#
+#   General exam configuration.
+#
+#================================================================================
+question_dir: /Users/patoale/Dropbox/projects/examtex/example/questions
+docopts:
+ - 12pt
+ - addpoints
+packages:
+ - {name: graphicx,  opts: pdftex}
+ - {name: adjustbox, opts: export}
+ - {name: color,     opts: }
+ - {name: amsmath,   opts: }
+ - {name: siunitx,   opts: }
+pkgconfig: |
+  \SolutionEmphasis{\color{red}}
+  \CorrectChoiceEmphasis{\color{red}\bfseries}
+  \sisetup{per-mode=symbol, tight-spacing=true, retain-explicit-plus=true}
+  \DeclareSIUnit\clight{c}
+  \DeclareSIUnit\eVperc{\electronvolt\per\clight}
+  \DeclareSIUnit\eVpercsq{\electronvolt\per\clight\squared}
+head_foot: |
+  \pagestyle{headandfoot}
+  \firstpageheader{}{}{}
+  \runningheader{}{}{}
+  \firstpagefooter{\VAR{course}}{\VAR{exam}}{\VAR{semester}}
+  \firstpagefootrule
+  \runningfooter{\VAR{course}}{\VAR{exam}}{Page \thepage\ of \numpages}
+  \runningfootrule
+start_on_new: true
+num_per_page: 4
+back:

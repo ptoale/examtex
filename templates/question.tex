@@ -1,0 +1,79 @@
+\#{===================================================================================}
+\#{                                                                                   }
+\#{ Questions template. Variables include:                                            }
+\#{   Required:                                                                       }
+\#{     qtext:    the question text                                                   }
+\#{   Optional:                                                                       }
+\#{     meta:     meta information, must be commented out, defaults to none           }
+\#{     pts:      the point value of the question, defaults to none                   }
+\#{     choices:  list of choices for multiple-choice question, defaults to none      }
+\#{     correct:  the index of the correct choice, defaults to none                   }
+\#{     figure:   path to figure to include, defaults to none                         }
+\#{     stext:    the solution text, defaults to none                                 }
+\#{     solspace: amount of space to leave for solution, defaults to none             }
+\#{                                                                                   }
+\#{ Notes about figures:                                                              }
+\#{   Multiple choice: the choices need to come first, and in a minipage.             }
+\#{                    the figure comes immediately after, no blank line allowed.     }
+\#{   Free response: figure comes after question text.                                }
+\#{                                                                                   }
+\#{===================================================================================}
+\#{========================================}
+\#{ Question meta information              }
+\#{========================================}
+\BLOCK{ if meta }
+\VAR{meta}
+\BLOCK{ endif }
+\#{========================================}
+\#{ Begin the question block               }
+\#{========================================}
+\BLOCK{ if pts }
+\question[\VAR{pts}]
+\BLOCK{ else }
+\question
+\BLOCK{ endif }
+\#{========================================}
+\#{ The question text...                   }
+\#{========================================}
+\VAR{qtext}%# need a space on the next line
+
+\#{========================================}
+\#{ Multiple choice choices                }
+\#{========================================}
+\BLOCK{ if choices }
+\BLOCK{ if figure }
+\begin{minipage}[t]{0.6\linewidth}
+\BLOCK{ endif }
+\begin{choices}
+\BLOCK{ for c in choices }
+\BLOCK{ if loop.index0 == correct }
+  \correctchoice \VAR{c}
+\BLOCK{ else }
+  \choice \VAR{c}
+\BLOCK{ endif }
+\BLOCK{ endfor }
+\end{choices}
+\BLOCK{ if figure }
+\end{minipage}\hfill
+\BLOCK{ endif }
+\BLOCK{ endif }
+\#{========================================}
+\#{ Figure...                              }
+\#{========================================}
+\BLOCK{ if figure }
+\begin{minipage}[t]{0.4\linewidth}
+\includegraphics[width=\VAR{fig_width}\linewidth, valign=t]{\VAR{figure}}
+\end{minipage}
+\BLOCK{ endif }
+\#{========================================}
+\#{ The solution text...                                                              }
+\#{========================================}
+\BLOCK{ if stext }
+\BLOCK{ if solspace }
+\begin{solution}[\VAR{solspace}]
+\BLOCK{ else }
+\begin{solution}
+\BLOCK{ endif }
+\VAR{stext}
+\end{solution}
+\BLOCK{ endif }
