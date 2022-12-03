@@ -134,11 +134,14 @@ class Exam(object):
         qf = QuestionFactory(question_dir=self.question_dir)
         qs = []
         for qn in version['order']:
-            for q in version['questions']:
-                if q['qid'] == qn:
-                    pts = q['pts'] if 'pts' in q else None
-                    perm = q['perm'] if 'perm' in q else None
-                    qs.append(qf.make_question(qn, version=q['version'], pts=pts, perm=perm))
+            if qn == 'np':
+                qs.append(r'\ifprintanswers\else\newpage\fi')
+            else:
+                for q in version['questions']:
+                    if q['qid'] == qn:
+                        pts = q['pts'] if 'pts' in q else None
+                        perm = q['perm'] if 'perm' in q else None
+                        qs.append(qf.make_question(qn, version=q['version'], pts=pts, perm=perm))
 
         # copy the current dict and replace any rendered fields
         tvars = copy.deepcopy(self.__dict__)

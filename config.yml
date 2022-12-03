@@ -29,5 +29,5 @@ head_foot: |
   \runningfooter{\VAR{course}}{\VAR{exam}}{Page \thepage\ of \numpages}
   \runningfootrule
 start_on_new: true
-num_per_page: 4
+num_per_page: 
 back:

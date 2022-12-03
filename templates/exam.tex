@@ -82,9 +82,10 @@
 \#{========================================================================}
 \BLOCK{ for q in questions }
 \VAR{q}
-\ifprintanswers\else\vspace{\stretch{1}}\fi
+\BLOCK{ if num_per_page }
 \BLOCK{ if (loop.index0 % num_per_page) == (num_per_page-1) }
 \ifprintanswers\else\newpage\fi
+\BLOCK{ endif }
 \BLOCK{ endif }
 %
 \BLOCK{ endfor }
