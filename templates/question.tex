@@ -42,9 +42,12 @@
 \#{========================================}
 \BLOCK{ if choices }
 \BLOCK{ if figure }
-\begin{minipage}[t]{0.6\linewidth}
+\begin{minipage}[t]{0.5\linewidth}
 \BLOCK{ endif }
 \begin{choices}
+    \BLOCK{ if choice_sep }
+    \setlength\itemsep{\VAR{choice_sep}}
+    \BLOCK{ endif }
 \BLOCK{ for c in choices }
 \BLOCK{ if loop.index0 == correct }
   \correctchoice \VAR{c}
@@ -61,7 +64,7 @@
 \#{ Figure...                              }
 \#{========================================}
 \BLOCK{ if figure }
-\begin{minipage}[t]{0.4\linewidth}
+\begin{minipage}[t]{0.5\linewidth}
 \includegraphics[width=\VAR{fig_width}\linewidth, valign=t]{\VAR{figure}}
 \end{minipage}
 \BLOCK{ endif }

@@ -111,6 +111,9 @@ def si(value, unit=None, opts=None):
     """
     env = JinjaEnv().env
 
+    if isinstance(opts, list):
+        opts = ','.join(opts)
+
     if unit:
         if opts:
             return env.from_string(r'\qty[\VAR{opts}]{\VAR{value}}{\VAR{unit}}').render(opts=opts, value=value,
@@ -137,6 +140,70 @@ def render(template, **kwargs):
 
     """
     return JinjaEnv().env.from_string(template).render(kwargs)
+
+
+def render_question(**kwargs):
+    """
+    Renders the question. Sets default values.
+
+    :param kwargs: parameters
+    :return: the rendered question
+    :rtype: str
+
+    """
+
+    meta = None
+    if 'meta' in kwargs:
+        meta = kwargs['meta']
+
+    pts = None
+    if 'pts' in kwargs:
+        pts = kwargs['pts']
+
+    q_text = 'You need to supply a q_text!'
+    if 'qtext' in kwargs:
+        q_text = kwargs['qtext']
+
+    choices = None
+    if 'choices' in kwargs:
+        choices = kwargs['choices']
+
+    correct = 0
+    if 'correct' in kwargs:
+        correct = kwargs['correct']
+
+    choice_sep = '1pt'
+    if 'choice_sep' in kwargs:
+        choice_sep = kwargs['choice_sep']
+
+    figure = None
+    if 'figure' in kwargs:
+        figure = kwargs['figure']
+
+    fig_width = '1'
+    if 'fig_width' in kwargs:
+        fig_width = kwargs['fig_width']
+
+    solspace = '0in'
+    if 'solspace' in kwargs:
+        solspace = kwargs['solspace']
+
+    s_text = None
+    if 'stext' in kwargs:
+        s_text = kwargs['stext']
+
+    return JinjaEnv().env.get_template('question.tex').render(
+        meta=meta,
+        pts=pts,
+        qtext=q_text,
+        choices=choices,
+        correct=correct,
+        choice_sep=choice_sep,
+        figure=figure,
+        fig_width=fig_width,
+        solspace=solspace,
+        stext=s_text
+    )
 
 
 def permute(choices, permutation):
